@@ -107,19 +107,19 @@
     <div id="line_item_template" class="row line_items hidden-print">
       <div class="col-md-7">
         <div class="col-md-12">
-          <p contenteditable="true" class="editable" id="item_description">Drop Timing HTML Exports Here <smaller>(anything in yellow is editable, and things clean up for printing)</smaller>
+          <p contenteditable="true" class="editable item_description">Drop Timing HTML Exports Here <smaller>(anything in yellow is editable, and things clean up for printing)</smaller>
           </p>
         </div>
       </div>
       <div class="col-md-5">
         <div class="col-md-4">
-          <p contenteditable="true" class="editable" id="item_quantity">X</p>
+          <p contenteditable="true" class="editable item_quantity">X</p>
         </div>
         <div class="col-md-4">
-          <p contenteditable="true" class="editable" id="item_cost">Y.yy</p>
+          <p contenteditable="true" class="editable item_cost">Y.yy</p>
         </div>
         <div class="col-md-4">
-          <p contenteditable="true" class="editable" id="item_value">Z.zz</p>
+          <p contenteditable="true" class="editable item_value">Z.zz</p>
         </div>
       </div>
     </div>
@@ -185,10 +185,10 @@
               let itemCost = Number(decimalHours * ratePerHour).toFixed(2);
               let lineDeletor = '<span class="hidden-print line_item_deletor glyphicon glyphicon-remove pull-right"></span>';
               let $lineTemplate = $('#line_item_template').clone();
-              $lineTemplate.find('#item_description').html(fullDescrip);
-              $lineTemplate.find('#item_quantity').text(`${decimalHours} hrs`);
-              $lineTemplate.find('#item_cost').text(`$${ratePerHour}`);
-              $lineTemplate.find('#item_value').html(`$${itemCost} ${lineDeletor}`);
+              $lineTemplate.find('.item_description').html(fullDescrip);
+              $lineTemplate.find('.item_quantity').text(`${decimalHours} hrs`);
+              $lineTemplate.find('.item_cost').text(`$${ratePerHour}`);
+              $lineTemplate.find('.item_value').html(`$${itemCost} ${lineDeletor}`);
               $('#line_item_list').append(`<div class="row line_items">${$lineTemplate.html()}</div>`);
             },
             err => {
