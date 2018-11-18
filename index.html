@@ -1,0 +1,218 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style>
+    body {
+      padding-top: 50px;
+      padding-bottom: 20px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+  <style>
+    @media print {
+      .editable {
+        background-color: white;
+      }
+
+      .no-print,
+      .no-print * {
+        display: none !important;
+      }
+    }
+
+    .editable {
+      background-color: lightyellow;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="file_drop" class="container">
+
+    <div class="row">
+      <div class="col-md-4">
+        <h2>INVOICE</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <h3>To:</h3>
+        <h4 contenteditable="true" class="editable" id="invoicee">The Customer</h4>
+        <div contenteditable="true" class="editable" id="invoicee_1">the.customer@aol.com</div>
+        <div contenteditable="true" class="editable" id="invoicee_2">800/234-1234</div>
+        <div contenteditable="true" class="editable" id="invoicee_3">&nbsp;</div>
+      </div>
+      <div class="col-md-4">
+        <div class="col-md-6">
+          <h4>Invoice Date:</h4>
+          <p contenteditable="true" class="editable" id="invoice_date">m/d/y</p>
+        </div>
+        <div class="col-md-6">
+          <h4>Invoice Number:</h4>
+          <p contenteditable="true" class="editable" id="invoice_number">nn-nnnn</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="col-md-12">
+          <div class="pull-right">
+            <h3>From:</h3>
+            <h4 contenteditable="true" class="editable" id="invoicer">The Vendor</h4>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="pull-right">
+            <div contenteditable="true" class="editable" id="invoicer_1">the.vendor@gmail.com</div>
+            <div contenteditable="true" class="editable" id="invoicer_2">800/123-2345</div>
+            <div contenteditable="true" class="editable" id="invoicer_3">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="height: 50px;">
+    </div>
+
+    <div id="line_item_header" class="row" style="border-bottom: 1px solid black; margin-bottom: 15px;">
+      <div class="col-md-7">
+        <div class="col-md-offset-2 col-md-10">
+          <h5>Description</h5>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="col-md-4">
+          <h5>Quantity</h5>
+        </div>
+        <div class="col-md-4">
+          <h5>Unit Cost</h5>
+        </div>
+        <div class="col-md-4">
+          <h5>Amount</h5>
+        </div>
+      </div>
+    </div>
+
+    <div id="line_item_list">
+    </div>
+
+    <div id="line_item_template" class="row line_items hidden-print">
+      <div class="col-md-7">
+        <div class="col-md-12">
+          <p contenteditable="true" class="editable" id="item_description">Drop Timing HTML Exports Here <smaller>(anything in yellow is editable, and things clean up for printing)</smaller>
+          </p>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="col-md-4">
+          <p contenteditable="true" class="editable" id="item_quantity">X</p>
+        </div>
+        <div class="col-md-4">
+          <p contenteditable="true" class="editable" id="item_cost">Y.yy</p>
+        </div>
+        <div class="col-md-4">
+          <p contenteditable="true" class="editable" id="item_value">Z.zz</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="height: 150px;">
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="pull-left">
+          <h5>Due Date:&nbsp;</h5>
+        </div>
+        <div class="pull-left">
+          <h5 contenteditable="true" class="editable" id="due_date">mm-dd-yy</h5>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://lib.arvancloud.com/ar/datejs/1.0/date.min.js"></script>
+  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/filedrop@2.0.0/filedrop.min.js"></script>
+  <script>
+    var duration = /(-?\d*\.?\d+(?:e[-+]?\d+)?)\s*([a-zμ]*)/ig
+    function parse(str) {
+      var result = 0
+      // ignore commas
+      str = str.replace(/(\d),(\d)/g, '$1$2')
+      str.replace(duration, function (_, n, units) {
+        units = parse[units]
+          || parse[units.toLowerCase().replace(/s$/, '')]
+          || 1
+        result += parseFloat(n, 10) * units
+      })
+      return result
+    }
+    parse.nanosecond = parse.ns = 1 / 1e6;
+    parse.millisecond = parse.ms = 1;
+    parse.second = parse.sec = parse.s = parse.ms * 1000;
+    parse.minute = parse.min = parse.m = parse.s * 60;
+    parse.hour = parse.hr = parse.h = parse.m * 60;
+    parse.day = parse.d = parse.h * 24;
+    parse.week = parse.wk = parse.w = parse.d * 7;
+    parse.b = parse.month = parse.d * (365.25 / 12);
+    parse.year = parse.yr = parse.y = parse.d * 365.25;
+  </script>
+  <script>
+    function initFileDrop() {
+      window.fd.logging = false;
+      var options = { input: false };
+      var zone = new FileDrop('file_drop', options);
+      zone.event("send", function (files) {
+        files.each(function (file) {
+          file.readData(
+            data => {
+              let descrip = $(data).find('.totalTime').parent().children().empty().parent().text().trim();
+              let dateRange = $(data).find('.dateRange').text().trim();
+              let fullDescrip = `${descrip} <smaller>[${dateRange}]</smaller>`;
+              let totalTime = $(data).find('.totalTime').text().trim();
+              let decimalHours = parseFloat(parse(totalTime) / 1000 / 60 / 60).toFixed(2);
+              let ratePerHour = 50;
+              let itemCost = Number(decimalHours * ratePerHour).toFixed(2);
+              let lineDeletor = '<span class="hidden-print line_item_deletor glyphicon glyphicon-remove pull-right"></span>';
+              let $lineTemplate = $('#line_item_template').clone();
+              $lineTemplate.find('#item_description').html(fullDescrip);
+              $lineTemplate.find('#item_quantity').text(`${decimalHours} hrs`);
+              $lineTemplate.find('#item_cost').text(`$${ratePerHour}`);
+              $lineTemplate.find('#item_value').html(`$${itemCost} ${lineDeletor}`);
+              $('#line_item_list').append(`<div class="row line_items">${$lineTemplate.html()}</div>`);
+            },
+            err => {
+              console.log("filedrop.readdata.err", err);
+            },
+            "text"
+          );
+        });
+      });
+    };
+
+    $(document).ready(() => {
+      initFileDrop();
+      let now = new Date();
+      $('#invoice_date').text(now.toString('M/d/yy'));
+      now.add(1).months();
+      $('#due_date').text(now.toString('M/d/yy'));
+      $('#line_item_list').on('click', evt => {
+        if ($(evt.target).hasClass('glyphicon')) {
+          $(evt.target).parents('.line_items').remove();
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
