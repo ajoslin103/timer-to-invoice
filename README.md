@@ -1,7 +1,7 @@
 Timer-to-Invoice
 
 
-Installation:
+- Installation:
 
   this "program" is intended to be used without a server -- but it does require internet access
  
@@ -10,7 +10,7 @@ Installation:
   the file will load the various scripts and resources it needs from the internet 
  
  
-Usage:
+- Usage:
 
   drag timing export files (saved with the .html extension) into the line-item body of the invoice
   
@@ -19,12 +19,12 @@ Usage:
   modify your rate/hr and update the totals accordingly
 
 
-Printing
+- Printing
 
   there are css media rules that will hide operational things (like the X's and the drag-request) when printing
 
 
-To Dos:
+- To Dos:
 
   automatically re-calculate the line item totals 
   
