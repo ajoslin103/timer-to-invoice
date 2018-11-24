@@ -30,3 +30,7 @@ Timer-to-Invoice
   
   add a grand total, and re-calculate that as well
   
+- Done
+
+  added a grand total that updates as you add lines
+  

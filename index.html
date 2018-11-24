@@ -107,7 +107,7 @@
     <div id="line_item_template" class="row line_items hidden-print">
       <div class="col-md-7">
         <div class="col-md-12">
-          <p contenteditable="true" class="editable item_description">Drop Timing HTML Exports Here <smaller>(anything in yellow is editable, and things clean up for printing)</smaller>
+          <p contenteditable="true" class="editable item_description">Drop Timing HTML Exports Here <smaller>(anything in yellow is editable, and stuff cleans up for printing)</smaller>
           </p>
         </div>
       </div>
@@ -120,6 +120,24 @@
         </div>
         <div class="col-md-4">
           <p contenteditable="true" class="editable item_value">Z.zz</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="height: 150px;">
+    </div>
+
+    <div class="row">
+      <div class="col-md-offset-7 col-md-5">
+        <div class="col-md-offset-7 col-md-1">
+          <div class="pull-right">
+            <h5>Total:</h5>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="pull-left">
+            <h5 id="grand_total"></h5>
+          </div>
         </div>
       </div>
     </div>
@@ -180,16 +198,17 @@
               let dateRange = $(data).find('.dateRange').text().trim();
               let fullDescrip = `${descrip} <smaller>[${dateRange}]</smaller>`;
               let totalTime = $(data).find('.totalTime').text().trim();
-              let decimalHours = parseFloat(parse(totalTime) / 1000 / 60 / 60).toFixed(2);
+              let decimalHours = millisToHrs(totalTime);
               let ratePerHour = 50;
-              let itemCost = Number(decimalHours * ratePerHour).toFixed(2);
+              let itemCost = decimalHours * ratePerHour;
               let lineDeletor = '<span class="hidden-print line_item_deletor glyphicon glyphicon-remove pull-right"></span>';
               let $lineTemplate = $('#line_item_template').clone();
               $lineTemplate.find('.item_description').html(fullDescrip);
               $lineTemplate.find('.item_quantity').text(`${decimalHours} hrs`);
-              $lineTemplate.find('.item_cost').text(`$${ratePerHour}`);
-              $lineTemplate.find('.item_value').html(`$${itemCost} ${lineDeletor}`);
+              $lineTemplate.find('.item_cost').text(`${toMonetary(ratePerHour)}`);
+              $lineTemplate.find('.item_value').html(`${toMonetary(itemCost)} ${lineDeletor}`);
               $('#line_item_list').append(`<div class="row line_items">${$lineTemplate.html()}</div>`);
+              updateTotals();
             },
             err => {
               console.log("filedrop.readdata.err", err);
@@ -199,6 +218,22 @@
         });
       });
     };
+
+    function millisToHrs(totalTime) {
+      return parseFloat(parse(totalTime) / 1000 / 60 / 60).toFixed(2);
+    };
+
+    function toMonetary(x) {
+      return `$${Number(x).toFixed(2)}`;
+    };
+
+    function updateTotals() {
+      var total = $('.item_value')
+        .map(function () { var amt = $(this).text().replace('$', ''); return (isFinite(amt)) ? amt : 0.0 })
+        .toArray()
+        .reduce(function (r, e) { return r + Number(e); }, 0);
+      $('#grand_total').text(toMonetary(total));
+    }
 
     $(document).ready(() => {
       initFileDrop();
@@ -210,6 +245,7 @@
         if ($(evt.target).hasClass('glyphicon')) {
           $(evt.target).parents('.line_items').remove();
         }
+        updateTotals();
       });
     });
   </script>
