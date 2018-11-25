@@ -21,16 +21,5 @@ Timer-to-Invoice
 
 - Printing
 
-  there are css media rules that will hide operational things (like the X's and the drag-request) when printing
+  there are css media rules that will hide operational things (like the X's, the drag-request, the re-calculate button, icons, etc...) when printing
 
-
-- To Dos:
-
-  automatically re-calculate the line item totals 
-  
-  add a grand total, and re-calculate that as well
-  
-- Done
-
-  added a grand total that updates as you add lines
-  

@@ -14,6 +14,10 @@
       padding-top: 50px;
       padding-bottom: 20px;
     }
+
+    .no-left-important {
+      padding-left: 0px !important;
+    }
   </style>
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
   <style>
@@ -107,31 +111,80 @@
     <div id="line_item_template" class="row line_items hidden-print">
       <div class="col-md-7">
         <div class="col-md-12">
-          <p contenteditable="true" class="editable item_description">Drop Timing HTML Exports Here <smaller>(anything in yellow is editable, and stuff cleans up for printing)</smaller>
+          <p class="item_description">Drop Timing HTML Exports Here <smaller>(anything in yellow is editable, and stuff cleans up for printing)</smaller>
           </p>
         </div>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-5 item_group">
         <div class="col-md-4">
-          <p contenteditable="true" class="editable item_quantity">X</p>
+          <p class="item_quantity">X</p>
         </div>
         <div class="col-md-4">
-          <p contenteditable="true" class="editable item_cost">Y.yy</p>
+          <p class="item_cost">Y.yy</p>
         </div>
         <div class="col-md-4">
-          <p contenteditable="true" class="editable item_value">Z.zz</p>
+          <p class="item_value">Z.zz</p>
         </div>
       </div>
     </div>
 
-    <div class="row" style="height: 150px;">
+    <div class="row" style="height: 50px;">
     </div>
 
     <div class="row">
       <div class="col-md-offset-7 col-md-5">
         <div class="col-md-offset-7 col-md-1">
           <div class="pull-right">
-            <h5>Total:</h5>
+            <h5 class="editable">Subtotal:</h5>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="pull-left">
+            <h5 id="sub_total"></h5>
+          </div>
+        </div>
+        <!-- <div class="item_deletor col-md-1">
+          <span class="hidden-print line_item_deletor glyphicon glyphicon-remove pull-right"></span>
+        </div> -->
+      </div>
+    </div>
+
+    <div id="additional_item_list">
+    </div>
+
+    <div id="additional_item_template" class="row line_items hidden-print">
+      <div class="col-md-offset-7 col-md-5">
+        <div class="col-md-8">
+          <div class="pull-right">
+            <p class="additional_tag">Add invoice level items here (ex: Tax 6%, Shipping $22, Coupon -$50, Discount -10%) </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="col-md-6 no-left-important">
+            <div class="pull-left">
+              <p class="additional_value">T.xx</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <span class="additional_item_generator glyphicon glyphicon-plus pull-right"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="height: 50px;">
+    </div>
+
+    <div class="row">
+      <div class="col-md-offset-7 col-md-5">
+        <div class="col-md-offset-5 col-md-2">
+          <div class="pull-right">
+            <div id="update_totals" class="btn btn-default hidden-print">Update Totals</div>
+          </div>
+        </div>
+        <div class="col-md-1">
+          <div class="pull-right">
+            <h5 class="editable">Total:</h5>
           </div>
         </div>
         <div class="col-md-3">
@@ -142,7 +195,7 @@
       </div>
     </div>
 
-    <div class="row" style="height: 150px;">
+    <div class="row" style="height: 100px;">
     </div>
 
     <div class="row">
@@ -186,6 +239,7 @@
     parse.year = parse.yr = parse.y = parse.d * 365.25;
   </script>
   <script>
+    // ---------------------------------------------------------------------------
     function initFileDrop() {
       window.fd.logging = false;
       var options = { input: false };
@@ -203,12 +257,11 @@
               let itemCost = decimalHours * ratePerHour;
               let lineDeletor = '<span class="hidden-print line_item_deletor glyphicon glyphicon-remove pull-right"></span>';
               let $lineTemplate = $('#line_item_template').clone();
-              $lineTemplate.find('.item_description').html(fullDescrip);
-              $lineTemplate.find('.item_quantity').text(`${decimalHours} hrs`);
-              $lineTemplate.find('.item_cost').text(`${toMonetary(ratePerHour)}`);
+              $lineTemplate.find('.item_description').attr('contenteditable', true).addClass('editable').html(fullDescrip);
+              $lineTemplate.find('.item_quantity').attr('contenteditable', true).addClass('editable').text(`${decimalHours} hrs`);
+              $lineTemplate.find('.item_cost').attr('contenteditable', true).addClass('editable').text(`${toMonetary(ratePerHour)}`);
               $lineTemplate.find('.item_value').html(`${toMonetary(itemCost)} ${lineDeletor}`);
               $('#line_item_list').append(`<div class="row line_items">${$lineTemplate.html()}</div>`);
-              updateTotals();
             },
             err => {
               console.log("filedrop.readdata.err", err);
@@ -219,34 +272,83 @@
       });
     };
 
+    // ---------------------------------------------------------------------------
     function millisToHrs(totalTime) {
       return parseFloat(parse(totalTime) / 1000 / 60 / 60).toFixed(2);
     };
 
+    // ---------------------------------------------------------------------------
     function toMonetary(x) {
       return `$${Number(x).toFixed(2)}`;
     };
 
+    // ---------------------------------------------------------------------------
     function updateTotals() {
-      var total = $('.item_value')
-        .map(function () { var amt = $(this).text().replace('$', ''); return (isFinite(amt)) ? amt : 0.0 })
-        .toArray()
-        .reduce(function (r, e) { return r + Number(e); }, 0);
-      $('#grand_total').text(toMonetary(total));
+
+      // debugger;
+
+      let subTotal = 0;
+      $('.item_group').each(function () {
+        let item_quantity = $(this).find('.item_quantity').text().replace(/[^0-9.]/g, '');
+        let item_cost = $(this).find('.item_cost').text().replace(/[^0-9.]/g, '');
+        if (isFinite(item_quantity) && isFinite(item_cost)) {
+          let item_value = item_quantity * item_cost;
+          $(this).find('.item_value').text(toMonetary(item_value));
+          subTotal += item_value;
+        }
+      });
+
+      $('#sub_total').text(toMonetary(subTotal));
+
+      let grandTotal = subTotal;
+      $('.additional_value').each(function () {
+        let additional_value = $(this).text();
+        let dollars = (/[$]/.test(additional_value));
+        let percent = (/[%]/.test(additional_value));
+        let negative = (/[-]/.test(additional_value));
+        let adjustment = additional_value.replace('$', '').replace('%', '');
+        if (isFinite(adjustment)) {
+          if (dollars && !percent) {
+            grandTotal = grandTotal + Number(adjustment);
+          }
+          if (!dollars && percent) {
+            grandTotal = grandTotal + Number(grandTotal * adjustment / 100);
+          }
+        }
+      });
+
+      $('#grand_total').text(toMonetary(grandTotal));
     }
 
+    // ---------------------------------------------------------------------------
     $(document).ready(() => {
       initFileDrop();
+
       let now = new Date();
       $('#invoice_date').text(now.toString('M/d/yy'));
       now.add(1).months();
       $('#due_date').text(now.toString('M/d/yy'));
+
       $('#line_item_list').on('click', evt => {
         if ($(evt.target).hasClass('glyphicon')) {
           $(evt.target).parents('.line_items').remove();
         }
-        updateTotals();
       });
+
+      $('.additional_item_generator').on('click', evt => {
+        let $additionalTemplate = $('#additional_item_template').clone();
+        $additionalTemplate.find('.additional_tag').attr('contenteditable', true).addClass('editable').text(`Tax`);
+        $additionalTemplate.find('.additional_value').attr('contenteditable', true).addClass('editable').text(`6%`);
+        $additionalTemplate.find('.additional_item_generator').removeClass('additional_item_generator').addClass('additional_item_subtractor').removeClass('glyphicon-plus').addClass('glyphicon-minus').addClass('hidden-print');
+        $('#additional_item_list').append(`<div class="row line_items">${$additionalTemplate.html()}</div>`);
+        $('#additional_item_list').on('click', evt => {
+          if ($(evt.target).hasClass('glyphicon')) {
+            $(evt.target).parents('.line_items').remove();
+          }
+        });
+      });
+
+      $('#update_totals').click(updateTotals);
     });
   </script>
 </body>
