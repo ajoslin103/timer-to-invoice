@@ -23,3 +23,12 @@ Timer-to-Invoice
 
   there are css media rules that will hide operational things (like the X's, the drag-request, the re-calculate button, icons, etc...) when printing
 
+--- Samples ----
+
+- Working on an Invoice
+
+![working](https://user-images.githubusercontent.com/443893/48991219-07536500-f100-11e8-8263-f46f83043236.png)
+
+- The same Invoice printed
+
+![printed](https://user-images.githubusercontent.com/443893/48991220-07536500-f100-11e8-845f-338ddcb82522.png)
