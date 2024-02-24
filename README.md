@@ -1,5 +1,9 @@
 Timer-to-Invoice
 
+- Note
+
+  recently I found I had to switch to Landscape mode in order for things to line up
+  
 
 - Installation:
 
