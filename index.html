@@ -1,15 +1,15 @@
 <!doctype html>
 <html class="no-js" lang="">
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title></title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <style>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
     body {
       padding-top: 50px;
       padding-bottom: 20px;
@@ -19,8 +19,8 @@
       padding-left: 0px !important;
     }
   </style>
-  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-  <style>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <style>
     @media print {
       .editable {
         background-color: white;
@@ -36,185 +36,185 @@
       background-color: lightyellow;
     }
   </style>
-</head>
+  </head>
 
-<body>
+  <body>
 
-  <div id="file_drop" class="container">
+    <div id="file_drop" class="container">
 
-    <div class="row">
-      <div class="col-md-4">
-        <h2>INVOICE</h2>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-4">
-        <h3>To:</h3>
-        <h4 contenteditable="true" class="editable" id="invoicee">The Customer</h4>
-        <div contenteditable="true" class="editable" id="invoicee_1">the.customer@aol.com</div>
-        <div contenteditable="true" class="editable" id="invoicee_2">800/234-1234</div>
-        <div contenteditable="true" class="editable" id="invoicee_3">&nbsp;</div>
-      </div>
-      <div class="col-md-4">
-        <div class="col-md-6">
-          <h4>Invoice Date:</h4>
-          <p contenteditable="true" class="editable" id="invoice_date">m/d/y</p>
-        </div>
-        <div class="col-md-6">
-          <h4>Invoice Number:</h4>
-          <p contenteditable="true" class="editable" id="invoice_number">nn-nnnn</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="col-md-12">
-          <div class="pull-right">
-            <h3>From:</h3>
-            <h4 contenteditable="true" class="editable" id="invoicer">The Vendor</h4>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="pull-right">
-            <div contenteditable="true" class="editable" id="invoicer_1">the.vendor@gmail.com</div>
-            <div contenteditable="true" class="editable" id="invoicer_2">800/123-2345</div>
-            <div contenteditable="true" class="editable" id="invoicer_3">&nbsp;</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row" style="height: 50px;">
-    </div>
-
-    <div id="line_item_header" class="row" style="border-bottom: 1px solid black; margin-bottom: 15px;">
-      <div class="col-md-7">
-        <div class="col-md-offset-2 col-md-10">
-          <h5>Description</h5>
-        </div>
-      </div>
-      <div class="col-md-5">
+      <div class="row">
         <div class="col-md-4">
-          <h5>Quantity</h5>
+          <h2>INVOICE</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <h3>To:</h3>
+          <h4 contenteditable="true" class="editable" id="invoicee">Gateman, Goodbury and Graves</h4>
+          <div contenteditable="true" class="editable" id="invoicee_1">Mockingbird Heights</div>
+          <div contenteditable="true" class="editable" id="invoicee_2">Hollywood, CA 90210</div>
+          <div contenteditable="true" class="editable" id="invoicee_3">&nbsp;</div>
         </div>
         <div class="col-md-4">
-          <h5>Unit Cost</h5>
-        </div>
-        <div class="col-md-4">
-          <h5>Amount</h5>
-        </div>
-      </div>
-    </div>
-
-    <div id="line_item_list">
-    </div>
-
-    <div id="line_item_template" class="row line_items hidden-print">
-      <div class="col-md-7">
-        <div class="col-md-12">
-          <p class="item_description">Drop Timing HTML Exports Here <smaller>(anything in yellow is editable, and stuff cleans up for printing)</smaller>
-          </p>
-        </div>
-      </div>
-      <div class="col-md-5 item_group">
-        <div class="col-md-4">
-          <p class="item_quantity">X</p>
-        </div>
-        <div class="col-md-4">
-          <p class="item_cost">Y.yy</p>
-        </div>
-        <div class="col-md-4">
-          <p class="item_value">Z.zz</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="row" style="height: 50px;">
-    </div>
-
-    <div class="row">
-      <div class="col-md-offset-7 col-md-5">
-        <div class="col-md-offset-7 col-md-1">
-          <div class="pull-right">
-            <h5 class="editable">Subtotal:</h5>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="pull-left">
-            <h5 id="sub_total"></h5>
-          </div>
-        </div>
-        <!-- <div class="item_deletor col-md-1">
-          <span class="hidden-print line_item_deletor glyphicon glyphicon-remove pull-right"></span>
-        </div> -->
-      </div>
-    </div>
-
-    <div id="additional_item_list">
-    </div>
-
-    <div id="additional_item_template" class="row line_items hidden-print">
-      <div class="col-md-offset-7 col-md-5">
-        <div class="col-md-8">
-          <div class="pull-right">
-            <p class="additional_tag">Add invoice level items here (ex: Tax 6%, Shipping $22, Coupon -$50, Discount -10%) </p>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="col-md-6 no-left-important">
-            <div class="pull-left">
-              <p class="additional_value">T.xx</p>
-            </div>
+          <div class="col-md-6">
+            <h4>Invoice Date:</h4>
+            <p contenteditable="true" class="editable" id="invoice_date">m/d/y</p>
           </div>
           <div class="col-md-6">
-            <span class="additional_item_generator glyphicon glyphicon-plus pull-right"></span>
+            <h4>Invoice Number:</h4>
+            <p contenteditable="true" class="editable" id="invoice_number">nn-nnnn</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="col-md-12">
+            <div class="pull-right">
+              <h3>From:</h3>
+              <h4 contenteditable="true" class="editable" id="invoicer">Herman Munster</h4>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="pull-right">
+              <div contenteditable="true" class="editable" id="invoicer_1">1313 Mockingbird Lane</div>
+              <div contenteditable="true" class="editable" id="invoicer_2">Mockingbird Heights, CA 90210</div>
+              <div contenteditable="true" class="editable" id="invoicer_3">&nbsp;</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="row" style="height: 50px;">
-    </div>
+      <div class="row" style="height: 50px;">
+      </div>
 
-    <div class="row">
-      <div class="col-md-offset-7 col-md-5">
-        <div class="col-md-offset-5 col-md-2">
-          <div class="pull-right">
-            <div id="update_totals" class="btn btn-default hidden-print">Update Totals</div>
+      <div id="line_item_header" class="row" style="border-bottom: 1px solid black; margin-bottom: 15px;">
+        <div class="col-md-7">
+          <div class="col-md-offset-2 col-md-10">
+            <h5>Description</h5>
           </div>
         </div>
-        <div class="col-md-1">
-          <div class="pull-right">
-            <h5 class="editable">Total:</h5>
+        <div class="col-md-5">
+          <div class="col-md-4">
+            <h5>Quantity</h5>
+          </div>
+          <div class="col-md-4">
+            <h5>Unit Cost</h5>
+          </div>
+          <div class="col-md-4">
+            <h5>Amount</h5>
           </div>
         </div>
-        <div class="col-md-3">
+      </div>
+
+      <div id="line_item_list">
+      </div>
+
+      <div id="line_item_template" class="row line_items hidden-print">
+        <div class="col-md-7">
+          <div class="col-md-12">
+            <p class="item_description">Drop Timing HTML Exports Here <smaller>(anything in yellow is editable, and stuff cleans up for printing)</smaller>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-5 item_group">
+          <div class="col-md-4">
+            <p class="item_quantity">X</p>
+          </div>
+          <div class="col-md-4">
+            <p class="item_cost">Y.yy</p>
+          </div>
+          <div class="col-md-4">
+            <p class="item_value">Z.zz</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="height: 50px;">
+      </div>
+
+      <div class="row">
+        <div class="col-md-offset-7 col-md-5">
+          <div class="col-md-offset-7 col-md-1">
+            <div class="pull-right">
+              <h5 class="editable">Subtotal:</h5>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="pull-left">
+              <h5 id="sub_total"></h5>
+            </div>
+          </div>
+          <!-- <div class="item_deletor col-md-1">
+          <span class="hidden-print line_item_deletor glyphicon glyphicon-remove pull-right"></span>
+        </div> -->
+        </div>
+      </div>
+
+      <div id="additional_item_list">
+      </div>
+
+      <div id="additional_item_template" class="row line_items hidden-print">
+        <div class="col-md-offset-7 col-md-5">
+          <div class="col-md-8">
+            <div class="pull-right">
+              <p class="additional_tag">Add invoice level items here (ex: Tax 6%, Shipping $22, Coupon -$50, Discount -10%) </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="col-md-6 no-left-important">
+              <div class="pull-left">
+                <p class="additional_value">T.xx</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <span class="additional_item_generator glyphicon glyphicon-plus pull-right"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="height: 50px;">
+      </div>
+
+      <div class="row">
+        <div class="col-md-offset-7 col-md-5">
+          <div class="col-md-offset-5 col-md-2">
+            <div class="pull-right">
+              <div id="update_totals" class="btn btn-default hidden-print">Update Totals</div>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="pull-right">
+              <h5 class="editable">Total:</h5>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="pull-left">
+              <h5 id="grand_total"></h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="height: 100px;">
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
           <div class="pull-left">
-            <h5 id="grand_total"></h5>
+            <h5 contenteditable="true" class="editable">Due Date:&nbsp;</h5>
+          </div>
+          <div class="pull-left">
+            <h5 contenteditable="true" class="editable" id="due_date">mm-dd-yy</h5>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="row" style="height: 100px;">
     </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="pull-left">
-          <h5 contenteditable="true" class="editable">Due Date:&nbsp;</h5>
-        </div>
-        <div class="pull-left">
-          <h5 contenteditable="true" class="editable" id="due_date">mm-dd-yy</h5>
-        </div>
-      </div>
-    </div>
-
-  </div>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-  <script src="https://lib.arvancloud.com/ar/datejs/1.0/date.min.js"></script>
-  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/filedrop@2.0.0/filedrop.min.js"></script>
-  <script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="./date.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/filedrop@2.0.0/filedrop.min.js"></script>
+    <script>
     var duration = /(-?\d*\.?\d+(?:e[-+]?\d+)?)\s*([a-zμ]*)/ig
     function parse(str) {
       var result = 0
@@ -238,7 +238,7 @@
     parse.b = parse.month = parse.d * (365.25 / 12);
     parse.year = parse.yr = parse.y = parse.d * 365.25;
   </script>
-  <script>
+    <script>
     // ---------------------------------------------------------------------------
     function initFileDrop() {
       window.fd.logging = false;
@@ -248,10 +248,43 @@
         files.each(function (file) {
           file.readData(
             data => {
-              let descrip = $(data).find('.totalTime').parent().children().empty().parent().text().trim();
-              let dateRange = $(data).find('.dateRange').text().trim();
+              // Handle multiple HTML formats with backward compatibility
+              let descrip, dateRange, totalTime;
+              
+              // Format 3 (2025+): Modern format with .report__* classes
+              if ($(data).find('.report__total').length > 0) {
+                totalTime = $(data).find('.report__total').text().trim();
+                dateRange = $(data).find('.report__range').text().trim();
+                descrip = $(data).find('.report__title').text().trim();
+                // Clean up "Total time recorded: " prefix if present
+                totalTime = totalTime.replace(/^Total time recorded:\s*/, '');
+              }
+              // Format 1 & 2 (2020-2022): Original format with .totalTime and .dateRange
+              else if ($(data).find('.totalTime').length > 0) {
+                totalTime = $(data).find('.totalTime').text().trim();
+                dateRange = $(data).find('.dateRange').text().trim();
+                descrip = $(data).find('.totalTime').parent().children().empty().parent().text().trim();
+                // Clean up "Total time recorded: " prefix if present
+                totalTime = totalTime.replace(/^Total time recorded:\s*/, '');
+              }
+              // Fallback: try to extract from title and any time-looking text
+              else {
+                let title = $(data).find('title').text() || $(data).find('h1').first().text() || 'Unknown Project';
+                descrip = title.split('–')[0].trim();
+                dateRange = title.includes('–') ? title.split('–').slice(1).join('–').trim() : '';
+                // Look for any element containing time patterns
+                totalTime = '';
+                $(data).find('*').each(function() {
+                  let text = $(this).text();
+                  if (text.match(/\d+h\s*\d+m|\d+:\d+:\d+|\d+\s*hours?|\d+\s*hrs?/i)) {
+                    if (!totalTime || text.length < totalTime.length) {
+                      totalTime = text.trim();
+                    }
+                  }
+                });
+              }
+              
               let fullDescrip = `${descrip} <smaller>[${dateRange}]</smaller>`;
-              let totalTime = $(data).find('.totalTime').text().trim();
               let decimalHours = millisToHrs(totalTime);
               let ratePerHour = 50;
               let itemCost = decimalHours * ratePerHour;
@@ -351,6 +384,6 @@
       $('#update_totals').click(updateTotals);
     });
   </script>
-</body>
+  </body>
 
 </html>
