@@ -1,5 +1,7 @@
 Timer-to-Invoice
 
+- as of 2025-10-23, the Timing export format has changed, and this program has been updated to handle the new format
+
 - Note
 
   recently I found I had to switch to Landscape mode in order for things to line up
